@@ -1,6 +1,6 @@
 package com.business.service;
 
-import com.business.dto.MerchantDto;
+import com.business.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
@@ -49,5 +49,71 @@ public class HttpRequestHandler {
                         HttpMethod.GET, null, MerchantDto.class);
         return rateResponse.getBody();
     }
+
+
+
+    public Task createRunsheet(List<Integer> shipmentIdList, Integer locationId) {
+        CreateSheetModel createSheetModel = new CreateSheetModel();
+        createSheetModel.setLocationId(locationId);
+        createSheetModel.setShipmentIds(shipmentIdList);
+        createSheetModel.setTaskDescription("create_runsheet");
+        ResponseEntity<Task> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task",
+                        createSheetModel, Task.class);
+        return responseEntity.getBody();
+
+    }
+
+    public PickupRequestResponse createHttpPickupRequest(CreatePickupRequest createPickupRequest, int locationId) {
+        ResponseEntity<PickupRequestResponse> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                        createPickupRequest, PickupRequestResponse.class);
+        return responseEntity.getBody();
+    }
+
+    public DeliverShipmentRequest createHttpDeliverRequest(DeliverShipmentRequest deliverShipmentRequest, int locationId) {
+        ResponseEntity<DeliverShipmentRequest> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                        deliverShipmentRequest, DeliverShipmentRequest.class);
+        return responseEntity.getBody();
+    }
+
+
+
+
+
+    //not required
+    public Task createPickUpSheet(List<Integer> shipmentIdList, Integer locationId) {
+        CreateSheetModel createSheetModel = new CreateSheetModel();
+        createSheetModel.setLocationId(locationId);
+        createSheetModel.setShipmentIds(shipmentIdList);
+        createSheetModel.setTaskDescription("create_pickupsheet");
+        ResponseEntity<Task> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task",
+                        createSheetModel, Task.class);
+        return responseEntity.getBody();
+
+    }
+
+    //not required
+    public List<String> mark_runsheet_complete(Integer runsheetId) {
+        Class<List<String>> clazz = (Class) List.class;
+        ResponseEntity<List<String>> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/mark_runsheet_complete/"+ runsheetId,
+                        null,clazz);
+        return responseEntity.getBody();
+    }
+
+    //not required
+    public List<String> mark_pickup_sheet_complete(Integer pickupSheetId) {
+        Class<List<String>> clazz = (Class) List.class;
+        ResponseEntity<List<String>> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/mark_pickup_sheet_complete/"+ pickupSheetId,
+                        null,clazz);
+        return responseEntity.getBody();
+    }
+
+
+
 
 }
