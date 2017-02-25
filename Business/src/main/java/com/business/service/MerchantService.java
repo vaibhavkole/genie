@@ -26,4 +26,12 @@ public class MerchantService {
         return (List<Merchant>) this.merchantRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
+    public Merchant getMerchantByName(String merchantName){
+        return this.merchantRepository.findByMerchantName(merchantName);
+    }
+    public Merchant getMerchantById(Integer id){
+        return this.merchantRepository.findOne(id);
+    }
+
 }

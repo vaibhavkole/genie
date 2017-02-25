@@ -24,6 +24,4 @@ public class MerchantDto {
     private String createdAt;
     @JsonProperty(value = "updated_at")
     private String updatedAt;
-
-
 }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface MerchantRepository extends CrudRepository<Merchant, Integer> {
+    Merchant findByMerchantName(String merchantName);
 }
