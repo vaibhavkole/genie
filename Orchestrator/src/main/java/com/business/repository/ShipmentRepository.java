@@ -12,5 +12,5 @@ import javax.persistence.Column;
 @Repository
 public interface ShipmentRepository extends CrudRepository<Shipment, Integer> {
 
-    Shipment findByMerchantIdAndShipmentRefId(Integer merchantId, String shipmentRefId);
+    Shipment findByMerchantIdAndShipmentRefNumber(Integer merchantId, String shipmentRefNumber);
 }

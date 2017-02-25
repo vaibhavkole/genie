@@ -1,5 +1,7 @@
 package com.business.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -15,5 +17,6 @@ public class Status {
     @Column(nullable = false)
     private String status;
     @Column(insertable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
 }

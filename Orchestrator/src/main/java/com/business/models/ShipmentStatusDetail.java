@@ -1,5 +1,8 @@
 package com.business.models;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 
@@ -26,7 +29,9 @@ public class ShipmentStatusDetail {
     @Column(nullable = false)
     private Integer currentHubId;
     @Column(insertable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @Column(insertable = false)
+    @UpdateTimestamp
     private Timestamp updatedAt;
 }

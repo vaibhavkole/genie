@@ -31,7 +31,7 @@ public class AddressMapper implements BaseMapper<Address, AddressDto> {
         addressDto.setPrimaryContactNumber(address.getPrimaryContactNumber());
         addressDto.setAlternateContactNumber(address.getAlternateContactNumber());
         addressDto.setLandmark(address.getLandmark());
-        addressDto.setEmailId(address.getEmailId());
+        addressDto.setEmail(address.getEmail());
         addressDto.setCreatedAt(new Date(address.getCreatedAt().getTime()).toString());
         addressDto.setUpdatedAt(new Date(address.getUpdatedAt().getTime()).toString());
         return addressDto;
@@ -48,7 +48,7 @@ public class AddressMapper implements BaseMapper<Address, AddressDto> {
         address.setPrimaryContactNumber(addressDto.getPrimaryContactNumber());
         address.setAlternateContactNumber(addressDto.getAlternateContactNumber());
         address.setLandmark(addressDto.getLandmark());
-        address.setEmailId(addressDto.getEmailId());
+        address.setEmail(addressDto.getEmail());
         return address;
     }
 }

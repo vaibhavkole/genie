@@ -26,8 +26,8 @@ public class AddressDto {
     private String alternateContactNumber;
     @JsonProperty(value = "landmark")
     private String landmark;
-    @JsonProperty(value = "email_id")
-    private String emailId;
+    @JsonProperty(value = "email")
+    private String email;
     @JsonProperty(value = "created_at")
     private String createdAt;
     @JsonProperty(value = "updated_at")

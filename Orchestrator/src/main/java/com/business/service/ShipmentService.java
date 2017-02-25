@@ -26,12 +26,24 @@ public class ShipmentService {
     @Autowired
     HttpRequestHandler httpRequestHandler;
 
+    @Autowired
+    private AddressService addressService;
+
     public Shipment createShipment(Shipment shipment) {
-        return shipmentRepository.save(shipment);
+        //Call Facilities for serviceability details
+        //Call Facilities to book slot for PickupService
+        //call Transportation to book slot and get expected delivery details
+        //call Facilities to book slot for delivery
+        shipment.setPickupAddress(addressService.addAddress(shipment.getPickupAddress()));
+        shipment.setDeliveryAddress(addressService.addAddress(shipment.getDeliveryAddress()));
+        Shipment createdShipment = shipmentRepository.save(shipment);
+        //call Task service for expected pickup shipment
+        //add shipment status details;
+        return createdShipment;
     }
-    public Shipment getShipmentDetails(String merchantName, String shipmentRefId){
+    public Shipment getShipmentDetails(String merchantName, String shipmentRefNumber){
         MerchantDto merchantInfo = requestHandler.getMerchantByName(merchantName);
-        return shipmentRepository.findByMerchantIdAndShipmentRefId(merchantInfo.getMerchantId(), shipmentRefId);
+        return shipmentRepository.findByMerchantIdAndShipmentRefNumber(merchantInfo.getMerchantId(), shipmentRefNumber);
     }
 
 

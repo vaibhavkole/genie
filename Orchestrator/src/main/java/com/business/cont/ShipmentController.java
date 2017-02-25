@@ -25,15 +25,15 @@ public class ShipmentController {
     private ShipmentMapper shipmentMapper;
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<?> addMerchant(@RequestBody ShipmentDto shipmentDto) {
+    public ResponseEntity<?> createShipment(@RequestBody ShipmentDto shipmentDto) {
         Shipment shipment = shipmentMapper.convertToEntity(shipmentDto);
         Shipment createdShipment = shipmentService.createShipment(shipment);
         return new ResponseEntity<>(shipmentMapper.convertToDto(createdShipment), HttpStatus.CREATED);
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<?> getShipmentDetail(@RequestParam(value = "merchantName") String merchantName, @RequestParam(value = "shipmentRefId") String shipmentRefId) {
-        Shipment shipment = shipmentService.getShipmentDetails(merchantName, shipmentRefId);
+    public ResponseEntity<?> getShipmentDetail(@RequestParam(value = "merchantName") String merchantName, @RequestParam(value = "shipmentRefNumber") String shipmentRefNumber) {
+        Shipment shipment = shipmentService.getShipmentDetails(merchantName, shipmentRefNumber);
         return new ResponseEntity<>(shipmentMapper.convertToDto(shipment), HttpStatus.OK);
     }
 

@@ -1,6 +1,8 @@
 package com.business.models;
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -18,7 +20,7 @@ public class Shipment {
     @Column(nullable = false)
     private Integer merchantId;
     @Column(nullable = false)
-    private String shipmentRefId;
+    private String shipmentRefNumber;
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pickup_address_id")
     private Address pickupAddress;
@@ -28,7 +30,9 @@ public class Shipment {
     @Column(nullable = false)
     private Double volumetricWeight;
     @Column(insertable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @Column(insertable = false)
+    @UpdateTimestamp
     private Timestamp updatedAt;
 }
