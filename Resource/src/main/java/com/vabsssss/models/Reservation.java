@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -17,9 +18,13 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotNull
     private Integer hubId;
+    @NotNull
     private Date reservationDate;
+    @NotNull
     private Double reservationCapacity;
+    @NotNull
     private Integer vehicleId;
 
     public Integer getId() {
@@ -64,7 +69,7 @@ public class Reservation {
 
     @Override
     public String toString() {
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         return "Reservation{" +
                 "id=" + id +
@@ -74,8 +79,4 @@ public class Reservation {
                 ", vehicleId='" + vehicleId + '\'' +
                 '}';
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
