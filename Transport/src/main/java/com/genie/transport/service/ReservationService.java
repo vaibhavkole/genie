@@ -7,10 +7,12 @@ import com.genie.transport.repository.IReservationRepository;
 import com.genie.transport.repository.IShipmentReservationDetailRepository;
 import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by akashdeep.saluja on 26/02/17.
  */
+@Service
 public class ReservationService implements IReservationService {
 
     private final IReservationRepository reservationRepository;
@@ -44,5 +46,10 @@ public class ReservationService implements IReservationService {
         reservation.setBookedCapacity(bookedCapacity + volume);
         reservationRepository.save(reservation);
         return reservationDetail.getId();
+    }
+
+    @Override
+    public Reservation getReservations(Date date, Connection connection) {
+        return reservationRepository.findByDateAndConnection(date, connection);
     }
 }

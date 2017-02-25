@@ -36,6 +36,9 @@ dependencies {
 
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    // https://mvnrepository.com/artifact/jgrapht/jgrapht
+    compile group: 'jgrapht', name: 'jgrapht', version: '0.6.0'
+
 }
 
 springBoot {

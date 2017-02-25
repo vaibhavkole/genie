@@ -5,12 +5,14 @@ import java.sql.Date;
 import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by akashdeep.saluja on 25/02/17.
  */
 @Entity
 @Data
+@NoArgsConstructor
 public class Reservation {
 
     @Id
@@ -18,7 +20,7 @@ public class Reservation {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "reservations", referencedColumnName = "id")
+    @JoinColumn(name = "connectionId", referencedColumnName = "id")
     Connection connection;
 
     Date date;

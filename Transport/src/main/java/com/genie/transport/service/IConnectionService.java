@@ -14,4 +14,6 @@ public interface IConnectionService {
 
     Connection getConnection(int id);
 
+    Iterable<Connection> getAllConnections(java.sql.Date date);
+
 }

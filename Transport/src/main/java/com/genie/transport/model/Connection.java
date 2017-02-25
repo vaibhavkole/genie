@@ -3,13 +3,13 @@ package com.genie.transport.model;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
-import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Created by akashdeep.saluja on 25/02/17.
  */
 @Entity
-@Data
+@NoArgsConstructor
 public class Connection {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,8 +47,63 @@ public class Connection {
         this.transitTime = transitTime;
     }
 
+    public int getId() {
+        return id;
+    }
 
+    public int getSourceHub() {
+        return sourceHub;
+    }
 
+    public int getDestinationHub() {
+        return destinationHub;
+    }
 
+    public double getCost() {
+        return cost;
+    }
 
+    public double getCapacity() {
+        return capacity;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public Date getTransitTime() {
+        return transitTime;
+    }
+
+    public int getVendorConnectionId() {
+        return vendorConnectionId;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public Date getUpdateDateTime() {
+        return updateDateTime;
+    }
+
+    public void setCapacity(double capacity) {
+        this.capacity = capacity;
+    }
+
+    @Override
+    public String toString() {
+        return "Connection{" +
+                "id=" + id +
+                ", sourceHub=" + sourceHub +
+                ", destinationHub=" + destinationHub +
+                ", cost=" + cost +
+                ", capacity=" + capacity +
+
+                ", transitTime=" + transitTime +
+                ", vendorConnectionId=" + vendorConnectionId +
+
+                ", updateDateTime=" + updateDateTime +
+                '}';
+    }
 }
