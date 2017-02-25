@@ -1,4 +1,4 @@
-package test.java.com.vabsssss;
+package com.vabsssss;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

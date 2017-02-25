@@ -1,3 +1,9 @@
-include 'Core'
-include 'Partner'
-include 'Orchastrator'
+rootProject.name = 'Learning'
+include ':Partner'
+include ':Orchestrator'
+
+
+// Project Folders
+project(':Partner').projectDir = "$rootDir/Partner" as File
+
+project(':Orchestrator').projectDir = "$rootDir/Orchestrator" as File
