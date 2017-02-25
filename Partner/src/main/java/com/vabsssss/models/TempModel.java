@@ -3,10 +3,10 @@ package com.vabsssss.models;
 import javax.persistence.*;
 
 /**
- * Created by vaibhav.janardhan on 25/01/17.
+ * Created by vaibhav.janardhan on 25/02/17.
  */
 @Entity
-public class Tenant {
+public class TempModel {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
