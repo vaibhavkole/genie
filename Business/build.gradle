@@ -33,11 +33,13 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('org.springframework.boot:spring-boot-starter-jdbc')
     runtime('mysql:mysql-connector-java')
+    compile group: 'org.modelmapper', name: 'modelmapper', version: '0.7.5'
+
 
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 springBoot {
-    mainClass = "com.vabsssss.LearningApplication1"
+    mainClass = "com.vabsssss.BusinessApplication"
 }
