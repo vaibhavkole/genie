@@ -7,10 +7,7 @@ import com.business.service.MerchantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,5 +38,11 @@ public class MerchantController {
         return new ResponseEntity<>(merchants.stream()
                 .map(tenant -> merchantMapper.convertToDto(tenant))
                 .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, params = {"name"})
+    public ResponseEntity<?> findByMerchantName(@RequestParam(value="name") String merchantName) {
+        Merchant merchant = merchantService.getMerchantByName(merchantName);
+        return new ResponseEntity<>(merchantMapper.convertToDto(merchant), HttpStatus.OK);
     }
 }
