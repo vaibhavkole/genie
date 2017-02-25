@@ -30,7 +30,7 @@ public class ShipmentMapper implements BaseMapper<Shipment, ShipmentDto> {
         ShipmentDto shipmentDto = modelMapper.map(shipment, ShipmentDto.class);
         MerchantDto merchantInfo = requestHandler.getMerchantById(shipment.getMerchantId());
         shipmentDto.setMerchantName(merchantInfo.getMerchantName());
-        shipmentDto.setShipmentRefId(shipment.getShipmentRefId());
+        shipmentDto.setShipmentRefNumber(shipment.getShipmentRefNumber());
         shipmentDto.setPickupAddress(addressMapper.convertToDto(shipment.getPickupAddress()));
         shipmentDto.setDeliveryAddress(addressMapper.convertToDto(shipment.getDeliveryAddress()));
         shipmentDto.setVolumetricWeight(shipment.getVolumetricWeight());
@@ -41,8 +41,9 @@ public class ShipmentMapper implements BaseMapper<Shipment, ShipmentDto> {
 
     public Shipment convertToEntity(ShipmentDto shipmentDto) {
         Shipment shipment = modelMapper.map(shipmentDto, Shipment.class);
-        shipment.setMerchantId(1);
-        shipment.setShipmentRefId(shipmentDto.getShipmentRefId());
+        MerchantDto merchantInfo = requestHandler.getMerchantByName(shipmentDto.getMerchantName());
+        shipment.setMerchantId(merchantInfo.getMerchantId());
+        shipment.setShipmentRefNumber(shipmentDto.getShipmentRefNumber());
         shipment.setPickupAddress(addressMapper.convertToEntity(shipmentDto.getPickupAddress()));
         shipment.setDeliveryAddress(addressMapper.convertToEntity(shipmentDto.getDeliveryAddress()));
         shipment.setVolumetricWeight(shipmentDto.getVolumetricWeight());

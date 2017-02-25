@@ -50,7 +50,4 @@ public class HttpRequestHandler {
         return rateResponse.getBody();
     }
 
-
-
-
 }

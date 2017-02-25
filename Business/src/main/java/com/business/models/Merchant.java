@@ -2,6 +2,8 @@ package com.business.models;
 
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -23,8 +25,10 @@ public class Merchant {
     private String authCode;
     private String description;
     @Column(insertable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @Column(insertable = false)
+    @UpdateTimestamp
     private Timestamp updatedAt;
 
 }

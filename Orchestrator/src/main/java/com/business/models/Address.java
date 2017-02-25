@@ -2,6 +2,9 @@ package com.business.models;
 
 
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -26,9 +29,11 @@ public class Address {
     private String primaryContactNumber;
     private String alternateContactNumber;
     private String landmark;
-    private String emailId;
+    private String email;
     @Column(insertable = false)
+    @CreationTimestamp
     private Timestamp createdAt;
     @Column(insertable = false)
+    @UpdateTimestamp
     private Timestamp updatedAt;
 }
