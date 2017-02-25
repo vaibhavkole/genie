@@ -78,6 +78,11 @@ public class ShipmentService implements IShipmentService {
         return response;
     }
 
+    @Override
+    public int getNextHub(int shipmentId, int hub) {
+        return reservationService.getNextHub(shipmentId, hub);
+    }
+
     private QuotationResponse getQuotationResponse(List<Connection> connections, ShipmentCreationRequest request) {
         double cost = 0;
         int days = 0;

@@ -12,5 +12,6 @@ public interface IShipmentService {
     List<Connection> getQuotationConnections(ShipmentCreationRequest request);
     QuotationResponse getQuotation(ShipmentCreationRequest request);
     QuotationResponse makeBooking(ShipmentCreationRequest request);
+    int getNextHub(int shipmentId, int hub);
 
 }

@@ -1,5 +1,6 @@
 package com.genie.transport.controller;
 
+import com.genie.transport.dto.NextHubRequest;
 import com.genie.transport.dto.QuotationResponse;
 import com.genie.transport.dto.ShipmentCreationRequest;
 import com.genie.transport.service.IShipmentService;
@@ -30,6 +31,13 @@ public class ShipmentController {
     public ResponseEntity makeBooking(@RequestBody ShipmentCreationRequest request) {
         QuotationResponse response = service.makeBooking(request);
         return  new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/next-hub")
+    @ResponseBody
+    public ResponseEntity getNextHub(@RequestBody NextHubRequest request) {
+        int nextHub = service.getNextHub(request.getShipmentId(), request.getHub());
+        return  new ResponseEntity<>(nextHub, HttpStatus.CREATED);
     }
 
 

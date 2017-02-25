@@ -13,4 +13,6 @@ public interface IReservationService {
 
     Reservation getReservations(Date date, Connection connection);
 
+    int getNextHub(int shipmentId, int hub);
+
 }

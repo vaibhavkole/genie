@@ -1,6 +1,7 @@
 package com.genie.transport.repository;
 
 import com.genie.transport.model.ShipmentReservationDetail;
+import java.util.List;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,4 +10,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface IShipmentReservationDetailRepository extends CrudRepository<ShipmentReservationDetail, Integer>{
+
+    List<ShipmentReservationDetail> findByShipmentId(int shipmentId);
+
 }

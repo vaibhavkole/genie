@@ -6,6 +6,7 @@ import com.genie.transport.model.ShipmentReservationDetail;
 import com.genie.transport.repository.IReservationRepository;
 import com.genie.transport.repository.IShipmentReservationDetailRepository;
 import java.sql.Date;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,5 +53,17 @@ public class ReservationService implements IReservationService {
     @Override
     public Reservation getReservations(Date date, Connection connection) {
         return reservationRepository.findByDateAndConnection(date, connection);
+    }
+
+    @Override
+    public int getNextHub(int shipmentId, int hub) {
+        List<ShipmentReservationDetail> details =
+                shipmentReservationDetailRepository.findByShipmentId(shipmentId);
+        for(ShipmentReservationDetail detail: details) {
+            if(detail.getReservation().getConnection().getSourceHub() == hub) {
+                return detail.getReservation().getConnection().getDestinationHub();
+            }
+        }
+        return 0;
     }
 }
