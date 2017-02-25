@@ -2,6 +2,7 @@ package com.business.mapper;
 
 import com.business.dto.MerchantDto;
 import com.business.models.Merchant;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,7 @@ import java.util.Date;
 /**
  * Created by vaibhav.janardhan on 25/02/17.
  */
+@Data
 @Component
 public class MerchantMapper implements BaseMapper<Merchant, MerchantDto> {
 
