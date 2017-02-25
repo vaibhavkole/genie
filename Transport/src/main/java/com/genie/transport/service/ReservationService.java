@@ -38,6 +38,7 @@ public class ReservationService implements IReservationService {
         Reservation reservation = reservationRepository.findByDateAndConnection(date, connection);
         if(reservation == null) {
             reservation = new Reservation(connection, date);
+            reservationRepository.save(reservation);
         }
 //        double capacity = connection.getCapacity();
         double bookedCapacity = reservation.getBookedCapacity();

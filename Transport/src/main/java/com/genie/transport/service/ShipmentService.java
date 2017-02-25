@@ -20,11 +20,16 @@ public class ShipmentService implements IShipmentService {
 
     private final IConnectionService connectionService;
 
+    private final IReservationService reservationService;
 
     @Autowired
-    public ShipmentService(IConnectionService connectionService) {
+    public ShipmentService(IConnectionService connectionService, IReservationService reservationService) {
         this.connectionService = connectionService;
+        this.reservationService = reservationService;
     }
+
+
+
 
     @Override
     public List<Connection> getQuotationConnections(@NonNull ShipmentCreationRequest request) {
@@ -39,7 +44,7 @@ public class ShipmentService implements IShipmentService {
             int destination = Integer.parseInt(path.get(i+1).getId());
             Connection ansConnection = null;
             for(Connection connection: connections) {
-                if(connection.getCapacity() > request.getVolume()) {
+                if(connection.getAvailableCapacity() > request.getVolume()) {
                     if (connection.getSourceHub() == source && connection.getDestinationHub() == destination) {
                         if (ansConnection == null) {
                             ansConnection = connection;
@@ -57,7 +62,23 @@ public class ShipmentService implements IShipmentService {
     @Override
     public QuotationResponse getQuotation(@NonNull ShipmentCreationRequest request) {
         List<Connection> connections = getQuotationConnections(request);
+        return getQuotationResponse(connections, request);
 
+    }
+
+    @Override
+    public QuotationResponse makeBooking(ShipmentCreationRequest request) {
+        List<Connection> connections = getQuotationConnections(request);
+        QuotationResponse response = getQuotationResponse(connections, request);
+        for(Connection connection: connections) {
+            int days = (int)Math.ceil((double)connection.getTransitTime().getTime()/(24*60*60*1000));
+            reservationService.createReservation(request.getShipmentId(),
+                    request.getVolume(), new java.sql.Date(request.getStartDate()), connection.getId());
+        }
+        return response;
+    }
+
+    private QuotationResponse getQuotationResponse(List<Connection> connections, ShipmentCreationRequest request) {
         double cost = 0;
         int days = 0;
         for(Connection connection: connections) {
@@ -66,6 +87,7 @@ public class ShipmentService implements IShipmentService {
         }
         QuotationResponse response = new QuotationResponse(cost, days);
         return response;
+
     }
 
     public  Graph createGraph(Iterable<Connection> connections, double volume) {
@@ -78,7 +100,7 @@ public class ShipmentService implements IShipmentService {
         Map<Integer, Edge> edgeMap = new HashMap<>();
         while (iterator.hasNext ()) {
             Connection element = (Connection) iterator.next ();
-            if(element.getCapacity() < volume) {
+            if((element.getAvailableCapacity() - volume)<0) {
                 continue;
             }
             int sourceIndex = vertices.indexOf(new Vertex(new Integer(element.getSourceHub()).toString(), ""));

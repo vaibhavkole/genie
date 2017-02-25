@@ -20,8 +20,15 @@ public class ShipmentController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/quotation")
     @ResponseBody
-    public ResponseEntity createPartner(@RequestBody ShipmentCreationRequest request) {
+    public ResponseEntity getQuotation(@RequestBody ShipmentCreationRequest request) {
         QuotationResponse response = service.getQuotation(request);
+        return  new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/book")
+    @ResponseBody
+    public ResponseEntity makeBooking(@RequestBody ShipmentCreationRequest request) {
+        QuotationResponse response = service.makeBooking(request);
         return  new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

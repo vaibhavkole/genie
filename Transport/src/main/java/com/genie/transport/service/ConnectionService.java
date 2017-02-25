@@ -54,7 +54,7 @@ public class ConnectionService implements IConnectionService {
                 reservation = new Reservation(element, date);
                 reservationRepository.save(reservation);
             }
-            element.setCapacity(element.getCapacity() - reservation.getBookedCapacity());
+            element.setAvailableCapacity(element.getCapacity() - reservation.getBookedCapacity());
         }
         return connections;
 

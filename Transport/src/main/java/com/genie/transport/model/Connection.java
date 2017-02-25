@@ -36,6 +36,9 @@ public class Connection {
 
     private Date updateDateTime;
 
+    @Transient
+    private double availableCapacity = 0;
+
     public Connection(int sourceHub, int destinationHub, double cost, double capacity,
                       Vendor vendor, int vendorConnectionId, Date transitTime) {
         this.sourceHub = sourceHub;
@@ -89,6 +92,14 @@ public class Connection {
 
     public void setCapacity(double capacity) {
         this.capacity = capacity;
+    }
+
+    public double getAvailableCapacity() {
+        return availableCapacity;
+    }
+
+    public void setAvailableCapacity(double availableCapacity) {
+        this.availableCapacity = availableCapacity;
     }
 
     @Override
