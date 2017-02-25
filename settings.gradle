@@ -3,10 +3,12 @@ include ':Orchestrator'
 include ':Transport'
 include ':Task'
 include ':Resource'
+include ':Business'
 
 // Project Folders
 project(':Orchestrator').projectDir = "$rootDir/Orchestrator" as File
 project(':Transport').projectDir = "$rootDir/Transport" as File
 project(':Task').projectDir = "$rootDir/Task" as File
 project(':Resource').projectDir = "$rootDir/Resource" as File
+project(':Business').projectDir = "$rootDir/Business" as File
 
