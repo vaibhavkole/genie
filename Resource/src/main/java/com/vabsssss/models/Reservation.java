@@ -74,8 +74,4 @@ public class Reservation {
                 ", vehicleId='" + vehicleId + '\'' +
                 '}';
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

@@ -1,5 +1,7 @@
 package com.business.cont;
 
+import com.business.dto.CreatePickupRequest;
+import com.business.dto.DeliverShipmentRequest;
 import com.business.dto.ShipmentDto;
 import com.business.mapper.ShipmentMapper;
 import com.business.models.Shipment;
@@ -35,4 +37,38 @@ public class ShipmentController {
         return new ResponseEntity<>(shipmentMapper.convertToDto(shipment), HttpStatus.OK);
     }
 
+
+
+    @RequestMapping(method = RequestMethod.POST,value = "/create_pickup_request/{location_id}")
+    public ResponseEntity<?> create_pickup_request() {
+        CreatePickupRequest createPickupRequest = new CreatePickupRequest();
+        createPickupRequest.setShipmentId(12);
+        createPickupRequest.setPincode(110032);
+        createPickupRequest.setAddress("adfasd");
+        return new ResponseEntity<>(shipmentService.createPickupRequest(createPickupRequest, 1), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/create_deliver_request/{location_id}")
+    public ResponseEntity<?> create_deliver_request() {
+        DeliverShipmentRequest deliverShipmentRequest = new DeliverShipmentRequest();
+        deliverShipmentRequest.setShipmentId(19);
+        deliverShipmentRequest.setPincode(110032);
+        deliverShipmentRequest.setAddress("adfasd");
+        return new ResponseEntity<>(shipmentService.createDeliverRequest(deliverShipmentRequest, 1), HttpStatus.OK);
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST,value = "/mark_runsheet_complete/{location_id}")
+    public ResponseEntity<?> mark_runsheet_complete() {
+        ;
+        return new ResponseEntity<>(shipmentService.mark_runsheet_complete(15), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/mark_pickup_sheet_complete/{location_id}")
+    public ResponseEntity<?> mark_pickup_sheet_complete() {
+        ;
+        return new ResponseEntity<>(shipmentService.mark_pickup_sheet_complete(13), HttpStatus.OK);
+    }
 }
+
+

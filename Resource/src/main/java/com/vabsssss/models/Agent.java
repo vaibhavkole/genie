@@ -59,8 +59,4 @@ public class Agent {
                 ", name='" + name + '\'' +
                 '}';
     }
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes
