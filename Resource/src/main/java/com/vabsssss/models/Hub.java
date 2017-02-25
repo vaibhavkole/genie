@@ -10,7 +10,7 @@ import javax.persistence.Id;
  */
 
 @Entity
-public class HubModel {
+public class Hub {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
