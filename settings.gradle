@@ -1,9 +1,12 @@
 rootProject.name = 'Learning'
-include ':Partner'
 include ':Orchestrator'
-
+include ':Transport'
+include ':Task'
+include ':Resource'
 
 // Project Folders
-project(':Partner').projectDir = "$rootDir/Partner" as File
-
 project(':Orchestrator').projectDir = "$rootDir/Orchestrator" as File
+project(':Transport').projectDir = "$rootDir/Transport" as File
+project(':Task').projectDir = "$rootDir/Task" as File
+project(':Resource').projectDir = "$rootDir/Resource" as File
+
