@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MerchantDto {
+    @JsonProperty(value = "merchant_id")
+    private Integer merchantId;
     @JsonProperty(value = "merchant_name")
     private String merchantName;
     @JsonProperty(value = "auth_code")

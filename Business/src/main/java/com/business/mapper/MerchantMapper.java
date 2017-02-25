@@ -19,6 +19,7 @@ public class MerchantMapper implements BaseMapper<Merchant, MerchantDto> {
 
     public MerchantDto convertToDto(Merchant merchant) {
         MerchantDto merchantDto = modelMapper.map(merchant, MerchantDto.class);
+        merchantDto.setMerchantId(merchant.getId());
         merchantDto.setMerchantName(merchant.getMerchantName());
         merchantDto.setDescription(merchant.getDescription());
         merchantDto.setAuthCode(merchant.getAuthCode());

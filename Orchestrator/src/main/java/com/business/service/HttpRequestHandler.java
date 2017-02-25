@@ -43,6 +43,13 @@ public class HttpRequestHandler {
         return rateResponse.getBody();
     }
 
+    public MerchantDto getMerchantById(Integer merchantId) {
+        ResponseEntity<MerchantDto> rateResponse =
+                restTemplate.exchange("http://localhost:29000/merchant/" + merchantId,
+                        HttpMethod.GET, null, MerchantDto.class);
+        return rateResponse.getBody();
+    }
+
 
 
 

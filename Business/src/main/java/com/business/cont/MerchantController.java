@@ -45,4 +45,11 @@ public class MerchantController {
         Merchant merchant = merchantService.getMerchantByName(merchantName);
         return new ResponseEntity<>(merchantMapper.convertToDto(merchant), HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @ResponseBody
+    public ResponseEntity<?> getMerchantById(@PathVariable int id) {
+        Merchant merchant = merchantService.getMerchantById(id);
+        return new ResponseEntity<>(merchantMapper.convertToDto(merchant),HttpStatus.OK);
+    }
 }

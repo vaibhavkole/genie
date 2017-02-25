@@ -2,7 +2,6 @@ package com.business.cont;
 
 import com.business.dto.MerchantDto;
 import com.business.service.HttpRequestHandler;
-import com.business.service.MerchantCacheLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +20,6 @@ public class MerchantController {
     @Autowired
     private HttpRequestHandler httpRequestHandler;
 
-    @Autowired
-    private MerchantCacheLoader merchantCacheLoader;
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> getMechants(){
@@ -32,7 +29,7 @@ public class MerchantController {
 
     @RequestMapping(method = RequestMethod.GET, params = {"name"})
     public ResponseEntity<?> findByMerchantName(@RequestParam(value="name") String merchantName) {
-        MerchantDto merchantInfo = merchantCacheLoader.getMerchantInfo(merchantName);
+        MerchantDto merchantInfo = httpRequestHandler.getMerchantByName(merchantName);
         return new ResponseEntity<>(merchantInfo, HttpStatus.OK);
     }
 
