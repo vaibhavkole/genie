@@ -1,5 +1,6 @@
 package com.business.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -17,6 +18,7 @@ public class ShipmentStatusDetail {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "shipment_id")
     private Shipment shipment;
     @OneToOne(fetch = FetchType.EAGER)
