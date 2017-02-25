@@ -50,8 +50,4 @@ public class ServiceArea {
                 '}';
     }
 
-<<<<<<< Updated upstream
 }
-=======
-}
->>>>>>> Stashed changes

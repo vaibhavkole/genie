@@ -7,6 +7,6 @@ import org.springframework.data.repository.CrudRepository;
  * Created by heena.h on 26/02/17.
  */
 public interface ServiceAreaRepository extends CrudRepository<ServiceArea, Integer> {
-//    TempModel findByTenantName(String tenantName);
+    ServiceArea findByType(String pincode);
 
 }
