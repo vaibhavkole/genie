@@ -44,10 +44,10 @@ public class ResourceController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/getHubIdForPincode/{pincode}")
     @ResponseBody
-    public ResponseEntity<String> getHubIdForPincode(@PathVariable String pincode) {
+    public ResponseEntity<ServiceArea> getHubIdForPincode(@PathVariable String pincode) {
         ServiceArea response = serviceAreaRepository.findByType(pincode);
 
-        return new ResponseEntity<>("Hub-Id : " + response.getHub_id(), HttpStatus.OK);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/reservation/{hub_id}/{weight}/{date}")

@@ -45,7 +45,7 @@ public class ShipmentController {
         createPickupRequest.setShipmentId(12);
         createPickupRequest.setPincode(110032);
         createPickupRequest.setAddress("adfasd");
-        return new ResponseEntity<>(shipmentService.createPickupRequest(createPickupRequest, 1), HttpStatus.OK);
+        return new ResponseEntity<>(shipmentService.createPickupRequest(), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST,value = "/create_deliver_request/{location_id}")

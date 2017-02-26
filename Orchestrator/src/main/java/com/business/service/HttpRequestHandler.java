@@ -113,7 +113,30 @@ public class HttpRequestHandler {
         return responseEntity.getBody();
     }
 
+    public QuotationResponse getQuotationResponse(ShipmentCreationRequestDto shipmentCreationRequestDto) {
+        ResponseEntity<QuotationResponse> responseEntity =
+                restTemplate.postForEntity("http://192.173.6.97:29004/shipment/book",
+                        shipmentCreationRequestDto, QuotationResponse.class);
+        return responseEntity.getBody();
+
+    }
 
 
+    public ServiceArea getServiceArea(String pincode) {
+        ResponseEntity<ServiceArea> rateResponse =
+                restTemplate.exchange("http://192.173.6.90:29021/resource/getHubIdForPincode/"+ pincode,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<ServiceArea>() {
+                        });
 
+        return rateResponse.getBody();
+    }
+
+    public Reservation bookReservation(Integer hub_id,  Double weight,  String date) {
+        ResponseEntity<Reservation> rateResponse =
+                restTemplate.exchange("http://192.173.6.90:29021/resource/reservation/"+ hub_id+"/" + weight + "/" + date,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<Reservation>() {
+                        });
+
+        return rateResponse.getBody();
+    }
 }
