@@ -59,7 +59,7 @@ public class ShipmentService {
         date = calendar.getTime();
         String later = formatter.format(date);
         bookReservation(serviceAreaDelivery.getHub_id(),shipment.getVolumetricWeight(),later);
-        //createPickupRequest();
+        createPickupRequest(createdShipment, serviceArea.getHub_id());
         shipmentStatusDetailService.addShipmentStatus(createdShipment, StatusEnum.Shipment_Created, serviceArea.getHub_id(), serviceAreaDelivery.getHub_id(), serviceArea.getHub_id());
         return createdShipment;
     }
@@ -86,12 +86,12 @@ public class ShipmentService {
         return shipmentRepository.findByMerchantIdAndShipmentRefNumber(merchantInfo.getMerchantId(), shipmentRefNumber);
     }
 
-    public PickupRequestResponse createPickupRequest() {
+    public PickupRequestResponse createPickupRequest(Shipment createdShipment,int hubId) {
         CreatePickupRequest createPickupRequest;
-        int locationId= 23;
+        int locationId = hubId;
         createPickupRequest = new CreatePickupRequest();
-        createPickupRequest.setShipmentId(12);
-        createPickupRequest.setPincode(110032);
+        createPickupRequest.setShipmentId(createdShipment.getId());
+        createPickupRequest.setPincode(Integer.parseInt(createdShipment.getPickupAddress().getPincode()));
         createPickupRequest.setAddress("adfasd");
         return httpRequestHandler.createHttpPickupRequest(createPickupRequest,locationId);
     }

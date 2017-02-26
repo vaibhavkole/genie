@@ -66,14 +66,14 @@ public class HttpRequestHandler {
 
     public PickupRequestResponse createHttpPickupRequest(CreatePickupRequest createPickupRequest, int locationId) {
         ResponseEntity<PickupRequestResponse> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/create_pickup_request/" + locationId,
                         createPickupRequest, PickupRequestResponse.class);
         return responseEntity.getBody();
     }
 
     public DeliverShipmentRequest createHttpDeliverRequest(DeliverShipmentRequest deliverShipmentRequest, int locationId) {
         ResponseEntity<DeliverShipmentRequest> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/create_pickup_request/" + locationId,
                         deliverShipmentRequest, DeliverShipmentRequest.class);
         return responseEntity.getBody();
     }
@@ -89,7 +89,7 @@ public class HttpRequestHandler {
         createSheetModel.setShipmentIds(shipmentIdList);
         createSheetModel.setTaskDescription("create_pickupsheet");
         ResponseEntity<Task> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task",
+                restTemplate.postForEntity("http://192.173.6.90:29011/task",
                         createSheetModel, Task.class);
         return responseEntity.getBody();
 
@@ -99,7 +99,7 @@ public class HttpRequestHandler {
     public List<String> mark_runsheet_complete(Integer runsheetId) {
         Class<List<String>> clazz = (Class) List.class;
         ResponseEntity<List<String>> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/mark_runsheet_complete/"+ runsheetId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/mark_runsheet_complete/"+ runsheetId,
                         null,clazz);
         return responseEntity.getBody();
     }
@@ -108,7 +108,7 @@ public class HttpRequestHandler {
     public List<String> mark_pickup_sheet_complete(Integer pickupSheetId) {
         Class<List<String>> clazz = (Class) List.class;
         ResponseEntity<List<String>> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/mark_pickup_sheet_complete/"+ pickupSheetId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/mark_pickup_sheet_complete/"+ pickupSheetId,
                         null,clazz);
         return responseEntity.getBody();
     }
