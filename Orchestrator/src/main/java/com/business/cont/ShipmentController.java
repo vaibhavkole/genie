@@ -69,6 +69,26 @@ public class ShipmentController {
         ;
         return new ResponseEntity<>(shipmentService.mark_pickup_sheet_complete(13), HttpStatus.OK);
     }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/pickup_complete/{shipment_id}/{location_id}")
+    public ResponseEntity<?> markPickupComplete(@PathVariable int shipment_id, @PathVariable int location_id) {
+        ;
+        return new ResponseEntity<>(shipmentService.markPickupComplete(shipment_id, location_id), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/delivered/{shipment_id}/{location_id}")
+    public ResponseEntity<?> markDelivered(@PathVariable int shipment_id, @PathVariable int location_id) {
+        ;
+        return new ResponseEntity<>(shipmentService.markDelivered(shipment_id, location_id), HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/received/{shipment_id}/{location_id}")
+    public ResponseEntity<?> markReceived(@PathVariable int shipment_id, @PathVariable int location_id) {
+        ;
+        return new ResponseEntity<>(shipmentService.markReceived(shipment_id, location_id), HttpStatus.OK);
+    }
+
+
 }
 
 

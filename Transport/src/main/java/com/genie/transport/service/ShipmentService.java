@@ -7,6 +7,7 @@ import com.genie.transport.model.Edge;
 import com.genie.transport.model.Graph;
 import com.genie.transport.model.Vertex;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,10 +71,12 @@ public class ShipmentService implements IShipmentService {
     public QuotationResponse makeBooking(ShipmentCreationRequest request) {
         List<Connection> connections = getQuotationConnections(request);
         QuotationResponse response = getQuotationResponse(connections, request);
+        int days = 0;
         for(Connection connection: connections) {
-            int days = (int)Math.ceil((double)connection.getTransitTime().getTime()/(24*60*60*1000));
+
             reservationService.createReservation(request.getShipmentId(),
-                    request.getVolume(), new java.sql.Date(request.getStartDate()), connection.getId());
+                    request.getVolume(), new java.sql.Date(TimeUnit.DAYS.toMillis(days) + request.getStartDate()), connection.getId());
+            days += (int)Math.ceil((double)connection.getTransitTime().getTime()/(24*60*60*1000));
         }
         return response;
     }

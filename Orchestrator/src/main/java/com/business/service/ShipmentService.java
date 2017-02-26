@@ -108,4 +108,23 @@ public class ShipmentService {
         return httpRequestHandler.mark_pickup_sheet_complete(pickupSheetId);
     }
 
+    public Integer markPickupComplete(int shipmentId, int hubId) {
+        return 0;
+    }
+
+
+    public Integer markDelivered(int shipmentId, int hubId) {
+        return 0;
+    }
+
+
+    public Integer markReceived(int shipmentId, int hubId) {
+        return 0;
+    }
+
+
+
+    public int getNextHub(int hubId, int shipmentId) {
+        return httpRequestHandler.getNextHub(hubId, shipmentId);
+    }
 }

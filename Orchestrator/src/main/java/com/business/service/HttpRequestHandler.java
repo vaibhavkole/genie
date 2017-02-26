@@ -118,7 +118,14 @@ public class HttpRequestHandler {
                 restTemplate.postForEntity("http://192.173.6.97:29004/shipment/book",
                         shipmentCreationRequestDto, QuotationResponse.class);
         return responseEntity.getBody();
+    }
 
+    public int getNextHub(int hub, int shipmentId) {
+        NextHubRequest nextHubRequest = new NextHubRequest(hub, shipmentId);
+        ResponseEntity<Integer> responseEntity =
+                restTemplate.postForEntity("http://localhost:29004/shipment/next-hub",
+                       nextHubRequest, null);
+        return responseEntity.getBody();
     }
 
 
