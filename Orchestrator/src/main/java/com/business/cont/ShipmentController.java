@@ -85,7 +85,7 @@ public class ShipmentController {
     @RequestMapping(method = RequestMethod.POST,value = "/received/{shipment_id}/{location_id}")
     public ResponseEntity<?> markReceived(@PathVariable int shipment_id, @PathVariable int location_id) {
         ;
-        return new ResponseEntity<>(shipmentService.markDelivered(shipment_id, location_id), HttpStatus.OK);
+        return new ResponseEntity<>(shipmentService.markReceived(shipment_id, location_id), HttpStatus.OK);
     }
 
 
