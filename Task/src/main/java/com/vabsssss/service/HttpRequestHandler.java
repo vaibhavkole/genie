@@ -45,7 +45,7 @@ public class HttpRequestHandler {
         GetTripSheetRequest getTripSheetRequest = taskService.getTripSheetRequest(pickupSheetId);
         for(GetTripSheetRequest.ShipmentDetails shipmentDetails: getTripSheetRequest.getShipmentDetails()) {
             ResponseEntity<Integer> responseEntity =
-                    restTemplate.postForEntity("http://localhost:29001/shipment/" +
+                    restTemplate.postForEntity("http://192.173.6.98:29001/shipment/" +
                                     "pickup_complete/" + shipmentDetails.getShipmentId()+ "/" + task.getLocationId(),
                             null, Integer.class);
             System.out.println("sendPickupEventCompleted" +responseEntity);
@@ -61,7 +61,7 @@ public class HttpRequestHandler {
         GetTripSheetRequest getTripSheetRequest = taskService.getTripSheetRequest(runsheetId);
         for(GetTripSheetRequest.ShipmentDetails shipmentDetails: getTripSheetRequest.getShipmentDetails()) {
             ResponseEntity<Integer> responseEntity =
-                    restTemplate.postForEntity("http://localhost:29001/shipment/" +
+                    restTemplate.postForEntity("http://192.173.6.98:29001/shipment/" +
                                     "delivered/" + shipmentDetails.getShipmentId()+ "/" + task.getLocationId(),
                             null, Integer.class);
         }
@@ -70,7 +70,7 @@ public class HttpRequestHandler {
 
     public Integer receiveShipment(Integer shipmentId, Integer locationId) {
         ResponseEntity<Integer> responseEntity =
-                restTemplate.postForEntity("http://localhost:29001/shipment/" +
+                restTemplate.postForEntity("http://192.173.6.98:29001/shipment/" +
                                 "received/" + shipmentId+ "/" + locationId,
                         null, Integer.class);
         return null;

@@ -44,6 +44,9 @@ public class TaskController {
     PickupRequestRepository pickupRequestRepository;
 
     @Autowired
+    CreateExpectationForShipmentRepository createExpectationForShipmentRepository;
+
+    @Autowired
     DeliverShipmentRequestRepository deliverShipmentRequestRepository;
 
     @RequestMapping(method = RequestMethod.POST)
@@ -82,10 +85,10 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/expect_shipment",method = RequestMethod.POST)
-    public ResponseEntity<?> expectShipment(@RequestBody ReceiveShipment receiveShipment) {
+    public ResponseEntity<?> expectShipment(@RequestBody CreateExpectationForShipment createExpectationForShipment) {
         //return new ResponseEntity<>(tempRepository.save(input), HttpStatus.CREATED);
-        receiveShipment.setDate(new Date());
-        return new ResponseEntity<>(receiveShipmentRepository.save(receiveShipment), HttpStatus.CREATED);
+        createExpectationForShipment.setDate(new Date());
+        return new ResponseEntity<>(createExpectationForShipmentRepository.save(createExpectationForShipment), HttpStatus.CREATED);
     }
 
     //not required
