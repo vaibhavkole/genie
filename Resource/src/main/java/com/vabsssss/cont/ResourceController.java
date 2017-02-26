@@ -54,15 +54,22 @@ public class ResourceController {
     public ResponseEntity<?> reservation(@PathVariable Integer hub_id, @PathVariable Double weight, @PathVariable String date) throws ParseException {
         // For the given hub_id fetch available resources.
         List<Vehicle> vehicles = vehicleRepository.findByHubId(hub_id);
-        Reservation reservation = new Reservation();
-        Integer vehicle_id = getOptimalVehicleId(vehicles,weight);
 
-        reservation.setVehicleId(vehicle_id);
-        reservation.setHubId(hub_id);
-        reservation.setReservationCapacity(weight);
-        reservation.setReservationDate(stringToDate(date));
-        reservation.setVehicleId(vehicles.get(0).getId());
-        return new ResponseEntity<>(reservationRepository.save(reservation), HttpStatus.CREATED);
+        // validate date
+
+        Reservation reservation = new Reservation();
+        if (vehicles.size() > 0) {
+            Integer vehicle_id = getOptimalVehicleId(vehicles,weight);
+            reservation.setVehicleId(vehicle_id);
+            reservation.setHubId(hub_id);
+            reservation.setReservationCapacity(weight);
+            reservation.setReservationDate(stringToDate(date));
+            reservation.setVehicleId(vehicles.get(0).getId());
+
+            return new ResponseEntity<>(reservationRepository.save(reservation), HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("No vehicles found.", HttpStatus.OK);
+        }
 
     }
 
@@ -82,6 +89,16 @@ public class ResourceController {
         return new ResponseEntity<>(vehicleRepository.save(vehicle), HttpStatus.OK);
     }
 
+//    @RequestMapping(method = RequestMethod.GET, value = "/getCapacity/{hub_id}")
+//    @ResponseBody
+//    public ResponseEntity<Double> getCapacityForHubId(@PathVariable Integer hub_id) {
+//        List<>
+////        ServiceArea response = serviceAreaRepository.findByType(pincode);
+//
+////        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+
+
     public Date stringToDate(String date) throws ParseException {
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.parse(date);
@@ -100,5 +117,17 @@ public class ResourceController {
         }
 
         return vehicle.getId();
+    }
+
+    public boolean isValidateDate(String date) throws ParseException {
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date givenDate = format.parse(date);
+        Date currentDate = new Date();
+
+        if (givenDate.compareTo(currentDate) <= 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
