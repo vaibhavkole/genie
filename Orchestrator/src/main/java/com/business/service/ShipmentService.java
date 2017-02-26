@@ -4,6 +4,7 @@ import com.business.dto.CreatePickupRequest;
 import com.business.dto.DeliverShipmentRequest;
 import com.business.dto.MerchantDto;
 import com.business.dto.PickupRequestResponse;
+import com.business.models.CreateExpectationForShipment;
 import com.business.models.Shipment;
 import com.business.repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,10 @@ public class ShipmentService {
 
     public DeliverShipmentRequest createDeliverRequest(DeliverShipmentRequest deliverShipmentRequest, int locationId) {
         return httpRequestHandler.createHttpDeliverRequest(deliverShipmentRequest, locationId);
+    }
+
+    public CreateExpectationForShipment createExpectedRequest(CreateExpectationForShipment createExpectationForShipment) {
+        return httpRequestHandler.createExpectationForShipment(createExpectationForShipment);
     }
 
     public List<String> mark_runsheet_complete(Integer runsheetId) {

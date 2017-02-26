@@ -1,6 +1,7 @@
 package com.business.service;
 
 import com.business.dto.*;
+import com.business.models.CreateExpectationForShipment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
@@ -79,6 +80,12 @@ public class HttpRequestHandler {
     }
 
 
+    public CreateExpectationForShipment createExpectationForShipment(CreateExpectationForShipment createExpectationForShipment) {
+        ResponseEntity<CreateExpectationForShipment> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/expect_shipment",
+                        createExpectationForShipment, CreateExpectationForShipment.class);
+        return responseEntity.getBody();
+    }
 
 
 
