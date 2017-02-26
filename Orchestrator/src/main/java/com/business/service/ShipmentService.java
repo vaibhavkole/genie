@@ -85,6 +85,9 @@ public class ShipmentService {
         MerchantDto merchantInfo = requestHandler.getMerchantByName(merchantName);
         return shipmentRepository.findByMerchantIdAndShipmentRefNumber(merchantInfo.getMerchantId(), shipmentRefNumber);
     }
+    public Shipment getShipmentDetails(Integer shipmentId){
+        return shipmentRepository.findOne(shipmentId);
+    }
 
     public PickupRequestResponse createPickupRequest(Shipment createdShipment,int hubId) {
         CreatePickupRequest createPickupRequest;
@@ -109,16 +112,50 @@ public class ShipmentService {
     }
 
     public Integer markPickupComplete(int shipmentId, int hubId) {
+        //status Update
+        List<ShipmentStatusDetail> shipmentStatusDetail = shipmentStatusDetailService.getShipmentStatusDetails(shipmentId);
+        ShipmentStatusDetail shipmentStatusDetail1 = shipmentStatusDetail.get(0);
+        shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Pickup_Completed, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+        if(shipmentStatusDetail1.getDeliveryHubId() == hubId){
+            DeliverShipmentRequest deliverShipmentRequest = new DeliverShipmentRequest();
+            deliverShipmentRequest.setShipmentId(shipmentId);
+            deliverShipmentRequest.setPincode(Integer.parseInt(shipmentStatusDetail1.getShipment().getDeliveryAddress().getPincode()));
+            createDeliverRequest(deliverShipmentRequest, hubId);
+            shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Out_of_delivery, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+
+        } else {
+            int nextHubId = httpRequestHandler.getNextHub(hubId, shipmentId);
+            //create Expectation in next hub
+            shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Expected, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+        }
         return 0;
     }
 
 
     public Integer markDelivered(int shipmentId, int hubId) {
+        List<ShipmentStatusDetail> shipmentStatusDetail = shipmentStatusDetailService.getShipmentStatusDetails(shipmentId);
+        ShipmentStatusDetail shipmentStatusDetail1 = shipmentStatusDetail.get(0);
+        shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Delivered, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         return 0;
     }
 
 
     public Integer markReceived(int shipmentId, int hubId) {
+        List<ShipmentStatusDetail> shipmentStatusDetail = shipmentStatusDetailService.getShipmentStatusDetails(shipmentId);
+        ShipmentStatusDetail shipmentStatusDetail1 = shipmentStatusDetail.get(0);
+        shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Received, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+        if(shipmentStatusDetail1.getDeliveryHubId() == hubId){
+            DeliverShipmentRequest deliverShipmentRequest = new DeliverShipmentRequest();
+            deliverShipmentRequest.setShipmentId(shipmentId);
+            deliverShipmentRequest.setPincode(Integer.parseInt(shipmentStatusDetail1.getShipment().getDeliveryAddress().getPincode()));
+            createDeliverRequest(deliverShipmentRequest, hubId);
+            shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Out_of_delivery, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+        } else {
+            int nextHubId = httpRequestHandler.getNextHub(hubId, shipmentId);
+            //create Expectation in next hub
+            shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Expected, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
+        }
+        shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Pickup_Completed, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         return 0;
     }
 

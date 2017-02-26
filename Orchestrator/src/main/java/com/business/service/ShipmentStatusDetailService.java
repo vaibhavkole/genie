@@ -31,6 +31,12 @@ public class ShipmentStatusDetailService {
         return (List<ShipmentStatusDetail>) this.shipmentStatusDetailRepository.findByShipment(shipment);
     }
 
+    @Transactional(readOnly = true)
+    public List<ShipmentStatusDetail> getShipmentStatusDetails(Integer shipmentId) {
+        Shipment shipment = shipmentService.getShipmentDetails(shipmentId);
+        return (List<ShipmentStatusDetail>) this.shipmentStatusDetailRepository.findByShipment(shipment);
+    }
+
 
     public ShipmentStatusDetail addShipmentStatusDetail(ShipmentStatusDetail shipmentStatusDetail){
         return shipmentStatusDetailRepository.save(shipmentStatusDetail);
