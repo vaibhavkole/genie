@@ -1,5 +1,6 @@
 package com.business.models;
 
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "Status")
+@Data
 public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

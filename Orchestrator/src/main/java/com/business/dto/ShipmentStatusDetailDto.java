@@ -16,6 +16,8 @@ import java.sql.Timestamp;
  */
 @Data
 public class ShipmentStatusDetailDto {
+    @JsonProperty(value = "merchant_name")
+    private String merchantName;
     @JsonProperty(value = "shipment_ref_number")
     private String shipmentRefNumber;
     @JsonProperty(value = "status")

@@ -82,7 +82,7 @@ public class HttpRequestHandler {
 
     public CreateExpectationForShipment createExpectationForShipment(CreateExpectationForShipment createExpectationForShipment) {
         ResponseEntity<CreateExpectationForShipment> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/expect_shipment",
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/expect_shipment",
                         createExpectationForShipment, CreateExpectationForShipment.class);
         return responseEntity.getBody();
     }
@@ -120,18 +120,25 @@ public class HttpRequestHandler {
         return responseEntity.getBody();
     }
 
-    public QuotationResponse getQuotationResponse(ShipmentCreationRequestDto shipmentCreationRequestDto) {
+    public QuotationResponse bookShipmentInTransportService(ShipmentCreationRequestDto shipmentCreationRequestDto) {
         ResponseEntity<QuotationResponse> responseEntity =
                 restTemplate.postForEntity("http://192.173.6.97:29004/shipment/book",
                         shipmentCreationRequestDto, QuotationResponse.class);
         return responseEntity.getBody();
     }
 
-    public int getNextHub(int hub, int shipmentId) {
-        NextHubRequest nextHubRequest = new NextHubRequest(hub, shipmentId);
+    public QuotationResponse getQuotation(ShipmentCreationRequestDto shipmentCreationRequestDto) {
+        ResponseEntity<QuotationResponse> responseEntity =
+                restTemplate.postForEntity("http://192.173.6.97:29004/shipment/quotation",
+                        shipmentCreationRequestDto, QuotationResponse.class);
+        return responseEntity.getBody();
+    }
+
+    public int getNextHub(int shipmentId, int hub) {
+        NextHubRequest nextHubRequest = new NextHubRequest(shipmentId, hub);
         ResponseEntity<Integer> responseEntity =
-                restTemplate.postForEntity("http://localhost:29004/shipment/next-hub",
-                       nextHubRequest, null);
+                restTemplate.postForEntity("http://192.173.6.97:29004/shipment/next-hub",
+                       nextHubRequest, Integer.class);
         return responseEntity.getBody();
     }
 

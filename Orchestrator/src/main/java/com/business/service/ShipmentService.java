@@ -8,15 +8,10 @@ import com.business.models.CreateExpectationForShipment;
 import com.business.dto.*;
 import com.business.models.Shipment;
 import com.business.models.ShipmentStatusDetail;
-import com.business.models.Status;
 import com.business.repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,7 +46,7 @@ public class ShipmentService {
         shipment.setDeliveryAddress(addressService.addAddress(shipment.getDeliveryAddress()));
         Shipment createdShipment = shipmentRepository.save(shipment);
 
-        QuotationResponse quotationResponse = getQuatation(createdShipment, serviceArea.getHub_id(),serviceAreaDelivery.getHub_id());
+        QuotationResponse quotationResponse = bookShipmentInTransportService(createdShipment, serviceArea.getHub_id(),serviceAreaDelivery.getHub_id());
         //call Facilities to book slot for delivery
         Calendar calendar = Calendar.getInstance();
         Date date = calendar.getTime();
@@ -73,10 +68,19 @@ public class ShipmentService {
         ServiceArea serviceArea = httpRequestHandler.getServiceArea(pincode);
         return serviceArea;
     }
-    private QuotationResponse getQuatation(Shipment shipment, int sourceHub, int destinationHub) {
+    private QuotationResponse bookShipmentInTransportService(Shipment shipment, int sourceHub, int destinationHub) {
         ShipmentCreationRequestDto shipmentCreationRequestDto = new ShipmentCreationRequestDto(shipment.getId(),
                 sourceHub, destinationHub,shipment.getVolumetricWeight(), new Date().getTime());
-        QuotationResponse quotationResponse = httpRequestHandler.getQuotationResponse(shipmentCreationRequestDto);
+        QuotationResponse quotationResponse = httpRequestHandler.bookShipmentInTransportService(shipmentCreationRequestDto);
+        return quotationResponse;
+    }
+
+    public QuotationResponse getQuotation(Shipment shipment) {
+        ServiceArea serviceArea = getFacilityId(shipment.getPickupAddress().getPincode());
+        ServiceArea serviceAreaDelivery = getFacilityId(shipment.getDeliveryAddress().getPincode());
+        ShipmentCreationRequestDto shipmentCreationRequestDto = new ShipmentCreationRequestDto(0,
+                serviceArea.getHub_id(), serviceAreaDelivery.getHub_id(), shipment.getVolumetricWeight(), new Date().getTime());
+        QuotationResponse quotationResponse = httpRequestHandler.getQuotation(shipmentCreationRequestDto);
         return quotationResponse;
     }
 
@@ -133,8 +137,11 @@ public class ShipmentService {
             shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Out_of_delivery, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
 
         } else {
-            int nextHubId = httpRequestHandler.getNextHub(hubId, shipmentId);
-            //create Expectation in next hub
+            int nextHubId = httpRequestHandler.getNextHub(shipmentId, hubId);
+            CreateExpectationForShipment createExpectationForShipment = new CreateExpectationForShipment();
+            createExpectationForShipment.setShipmentId(shipmentId);
+            createExpectationForShipment.setLocationId(nextHubId);
+            createExpectedRequest(createExpectationForShipment);
             shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Expected, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         }
         return 0;
@@ -160,17 +167,17 @@ public class ShipmentService {
             createDeliverRequest(deliverShipmentRequest, hubId);
             shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Out_of_delivery, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         } else {
-            int nextHubId = httpRequestHandler.getNextHub(hubId, shipmentId);
-            //create Expectation in next hub
+            int nextHubId = httpRequestHandler.getNextHub(shipmentId, hubId);
+            CreateExpectationForShipment createExpectationForShipment = new CreateExpectationForShipment();
+            createExpectationForShipment.setShipmentId(shipmentId);
+            createExpectationForShipment.setLocationId(nextHubId);
+            createExpectedRequest(createExpectationForShipment);
             shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Expected, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         }
-        shipmentStatusDetailService.addShipmentStatus(shipmentStatusDetail1.getShipment(), StatusEnum.Pickup_Completed, shipmentStatusDetail1.getPickupHubId(), shipmentStatusDetail1.getDeliveryHubId(), hubId);
         return 0;
     }
 
-
-
     public int getNextHub(int hubId, int shipmentId) {
-        return httpRequestHandler.getNextHub(hubId, shipmentId);
+        return httpRequestHandler.getNextHub(shipmentId, hubId);
     }
 }

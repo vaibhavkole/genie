@@ -2,6 +2,7 @@ package com.business.cont;
 
 import com.business.dto.CreatePickupRequest;
 import com.business.dto.DeliverShipmentRequest;
+import com.business.dto.QuotationResponse;
 import com.business.dto.ShipmentDto;
 import com.business.mapper.ShipmentMapper;
 import com.business.models.Shipment;
@@ -29,6 +30,12 @@ public class ShipmentController {
         Shipment shipment = shipmentMapper.convertToEntity(shipmentDto);
         Shipment createdShipment = shipmentService.createShipment(shipment);
         return new ResponseEntity<>(shipmentMapper.convertToDto(createdShipment), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(method = RequestMethod.POST,value = "/getQuotation")
+    public ResponseEntity<?> getQuatation(@RequestBody ShipmentDto shipmentDto) {
+        Shipment shipment = shipmentMapper.convertToEntity(shipmentDto);
+        return new ResponseEntity<>(shipmentService.getQuotation(shipment), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)

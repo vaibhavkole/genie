@@ -5,6 +5,7 @@ import com.business.dto.ShipmentDto;
 import com.business.dto.ShipmentStatusDetailDto;
 import com.business.models.Shipment;
 import com.business.models.ShipmentStatusDetail;
+import com.business.service.HttpRequestHandler;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,20 +21,21 @@ public class ShipmentStatusDetailMapper implements BaseMapper<ShipmentStatusDeta
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private HttpRequestHandler requestHandler;
+
 
     @Override
     public ShipmentStatusDetailDto convertToDto(ShipmentStatusDetail shipmentStatusDetail) {
-        /*ShipmentStatusDetailDto shipmentStatusDetailDto = modelMapper.map(shipmentStatusDetail, ShipmentStatusDetailDto.class);
-        MerchantDto merchantInfo = requestHandler.getMerchantById(shipmentStatusDetail.getMerchantId());
+        ShipmentStatusDetailDto shipmentStatusDetailDto = modelMapper.map(shipmentStatusDetail, ShipmentStatusDetailDto.class);
+        MerchantDto merchantInfo = requestHandler.getMerchantById(shipmentStatusDetail.getShipment().getMerchantId());
         shipmentStatusDetailDto.setMerchantName(merchantInfo.getMerchantName());
-        shipmentStatusDetailDto.setShipmentRefNumber(shipmentStatusDetail.getShipmentRefNumber());
-        shipmentStatusDetailDto.setPickupAddress(shipmentStatusDetail.convertToDto(shipmentStatusDetail.getPickupAddress()));
-        shipmentStatusDetailDto.setDeliveryAddress(shipmentStatusDetail.convertToDto(shipmentStatusDetail.getDeliveryAddress()));
-        shipmentStatusDetailDto.setVolumetricWeight(shipmentStatusDetail.getVolumetricWeight());
+        shipmentStatusDetailDto.setShipmentRefNumber(shipmentStatusDetail.getShipment().getShipmentRefNumber());
+        shipmentStatusDetailDto.setCurrentHubId(shipmentStatusDetail.getCurrentHubId());
+        shipmentStatusDetailDto.setStatus(shipmentStatusDetail.getStatus().getStatusName());
         shipmentStatusDetailDto.setCreatedAt(new Date(shipmentStatusDetail.getCreatedAt().getTime()).toString());
-        shipmentStatusDetailDto.setUpdatedAt(new Date(shipmentStatusDetail.getUpdatedAt().getTime()).toString());*/
-        //return shipmentStatusDetailDto;
-        return null;
+        shipmentStatusDetailDto.setUpdatedAt(new Date(shipmentStatusDetail.getUpdatedAt().getTime()).toString());
+        return shipmentStatusDetailDto;
     }
 
     @Override
