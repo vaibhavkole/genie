@@ -74,7 +74,9 @@ public class TaskService {
         for ( TaskIdShipmentMapping taskIdShipmentMapping : taskIdShipmentMappings) {
             shipmentId = taskIdShipmentMapping.getShipmentId();
             if("create_runsheet".equalsIgnoreCase(task.getTaskDescription())) {
-                deliverShipmentRequest = deliverShipmentRequestRepository.findByShipmentId(shipmentId);
+                deliverShipmentRequest = new DeliverShipmentRequest();
+                deliverShipmentRequest.setShipmentId(shipmentId);
+                deliverShipmentRequest = deliverShipmentRequestRepository.save(deliverShipmentRequest);
                 shipmentDetails = new GetTripSheetRequest.ShipmentDetails(shipmentId,deliverShipmentRequest.getAddress(),deliverShipmentRequest.getPincode());
             }else {
                 pickupRequest = pickupRequestRepository.findByShipmentId(shipmentId);
