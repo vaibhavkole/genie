@@ -1,5 +1,6 @@
 package com.business.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 
@@ -8,5 +9,6 @@ import lombok.Data;
  */
 @Data
 public class StatusDto {
-    /*private String status;*/
+    @JsonProperty(value = "status")
+    private String status;
 }

@@ -1,6 +1,8 @@
 package com.business.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -12,6 +14,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ShipmentStatusDetail")
+@Data
 public class ShipmentStatusDetail {
 
     @Id

@@ -2,10 +2,16 @@ package com.business.service;
 
 import com.business.dto.*;
 import com.business.models.Shipment;
+import com.business.models.ShipmentStatusDetail;
+import com.business.models.Status;
 import com.business.repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Column;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,6 +36,9 @@ public class ShipmentService {
     @Autowired
     private AddressService addressService;
 
+    @Autowired
+    private ShipmentStatusDetailService shipmentStatusDetailService;
+
     public Shipment createShipment(Shipment shipment) {
         ServiceArea serviceArea = getFacilityId(shipment.getPickupAddress().getPincode());
         ServiceArea serviceAreaDelivery = getFacilityId(shipment.getDeliveryAddress().getPincode());
@@ -50,8 +59,8 @@ public class ShipmentService {
         date = calendar.getTime();
         String later = formatter.format(date);
         bookReservation(serviceAreaDelivery.getHub_id(),shipment.getVolumetricWeight(),later);
-        createPickupRequest();
-        //add shipment status details;
+        //createPickupRequest();
+        shipmentStatusDetailService.addShipmentStatus(createdShipment, StatusEnum.Shipment_Created, serviceArea.getHub_id(), serviceAreaDelivery.getHub_id(), serviceArea.getHub_id());
         return createdShipment;
     }
 

@@ -3,6 +3,7 @@ package com.business.dto;
 import com.business.models.Shipment;
 import com.business.models.Status;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,14 +16,20 @@ import java.sql.Timestamp;
  */
 @Data
 public class ShipmentStatusDetailDto {
-
-    /*private Shipment shipment;
-    private Status status;
+    @JsonProperty(value = "shipment_ref_number")
+    private String shipmentRefNumber;
+    @JsonProperty(value = "status")
+    private String status;
+    @JsonProperty(value = "pickup_hub_id")
     private Integer pickupHubId;
+    @JsonProperty(value = "delivery_hub_id")
     private Integer deliveryHubId;
+    @JsonProperty(value = "current_hub_id")
     private Integer currentHubId;
-    private Timestamp createdAt;
-    private Timestamp updatedAt;*/
+    @JsonProperty(value = "created_at")
+    private String createdAt;
+    @JsonProperty(value = "updated_at")
+    private String updatedAt;
 }
 
 

@@ -124,19 +124,17 @@ public class HttpRequestHandler {
 
     public ServiceArea getServiceArea(String pincode) {
         ResponseEntity<ServiceArea> rateResponse =
-                restTemplate.exchange("http://192.173.6.90:29021/resource/getHubIdForPincode/"+ pincode,
+                restTemplate.exchange("http://192.173.6.34:29011/resource/getHubIdForPincode/"+ pincode,
                         HttpMethod.GET, null, new ParameterizedTypeReference<ServiceArea>() {
                         });
-
         return rateResponse.getBody();
     }
 
     public Reservation bookReservation(Integer hub_id,  Double weight,  String date) {
         ResponseEntity<Reservation> rateResponse =
-                restTemplate.exchange("http://192.173.6.90:29021/resource/reservation/"+ hub_id+"/" + weight + "/" + date,
-                        HttpMethod.GET, null, new ParameterizedTypeReference<Reservation>() {
+                restTemplate.exchange("http://192.173.6.34:29011/resource/reservation/"+ hub_id+"/" + weight + "/" + date,
+                        HttpMethod.POST, null, new ParameterizedTypeReference<Reservation>() {
                         });
-
         return rateResponse.getBody();
     }
 }
