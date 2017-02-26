@@ -1,5 +1,8 @@
 package com.business.models;
 
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,12 +14,14 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "ShipmentStatusDetail")
+@Data
 public class ShipmentStatusDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference(alwaysAsId = true)
     @JoinColumn(name = "shipment_id")
     private Shipment shipment;
     @OneToOne(fetch = FetchType.EAGER)

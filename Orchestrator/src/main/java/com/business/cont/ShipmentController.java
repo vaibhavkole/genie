@@ -38,16 +38,6 @@ public class ShipmentController {
     }
 
 
-
-    @RequestMapping(method = RequestMethod.POST,value = "/create_pickup_request/{location_id}")
-    public ResponseEntity<?> create_pickup_request() {
-        CreatePickupRequest createPickupRequest = new CreatePickupRequest();
-        createPickupRequest.setShipmentId(12);
-        createPickupRequest.setPincode(110032);
-        createPickupRequest.setAddress("adfasd");
-        return new ResponseEntity<>(shipmentService.createPickupRequest(createPickupRequest, 1), HttpStatus.OK);
-    }
-
     @RequestMapping(method = RequestMethod.POST,value = "/create_deliver_request/{location_id}")
     public ResponseEntity<?> create_deliver_request() {
         DeliverShipmentRequest deliverShipmentRequest = new DeliverShipmentRequest();
