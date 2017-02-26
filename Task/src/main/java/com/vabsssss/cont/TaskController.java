@@ -44,12 +44,37 @@ public class TaskController {
     PickupRequestRepository pickupRequestRepository;
 
     @Autowired
+    CreateExpectationForShipmentRepository createExpectationForShipmentRepository;
+
+    @Autowired
     DeliverShipmentRequestRepository deliverShipmentRequestRepository;
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> createTaskSheet(@RequestBody CreateSheetModel createSheetModel) {
         //return new ResponseEntity<>(tempRepository.save(input), HttpStatus.CREATED);
         return new ResponseEntity<>(taskService.createTripSheet(createSheetModel), HttpStatus.CREATED);
+    }
+
+    @RequestMapping(value = "/receive_shipment/{shipment_id}/{location_id}",method = RequestMethod.GET)
+    public ResponseEntity<?> receiveShipment(@PathVariable Integer shipment_id, @PathVariable Integer location_id) {
+        //return new ResponseEntity<>(tempRepository.save(input), HttpStatus.CREATED);
+        return new ResponseEntity<>(taskService.receiveShipment(shipment_id,location_id), HttpStatus.ACCEPTED);
+    }
+
+
+
+    @RequestMapping(value = "/sendPickupEventCompleted/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> sendPickupEventCompleted(@PathVariable Integer id) {
+
+
+        return new ResponseEntity<>(taskService.sendPickupEventCompleted(id),HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value = "/sendDeliveredEventCompleted/{id}", method = RequestMethod.GET)
+    public ResponseEntity<?> sendDeliveredEventCompleted(@PathVariable Integer id) {
+
+
+        return new ResponseEntity<>(taskService.sendDeliveredEventCompleted(id),HttpStatus.ACCEPTED);
     }
 
 
@@ -60,12 +85,13 @@ public class TaskController {
     }
 
     @RequestMapping(value = "/expect_shipment",method = RequestMethod.POST)
-    public ResponseEntity<?> expectShipment(@RequestBody ReceiveShipment receiveShipment) {
+    public ResponseEntity<?> expectShipment(@RequestBody CreateExpectationForShipment createExpectationForShipment) {
         //return new ResponseEntity<>(tempRepository.save(input), HttpStatus.CREATED);
-        receiveShipment.setDate(new Date());
-        return new ResponseEntity<>(receiveShipmentRepository.save(receiveShipment), HttpStatus.CREATED);
+        createExpectationForShipment.setDate(new Date());
+        return new ResponseEntity<>(createExpectationForShipmentRepository.save(createExpectationForShipment), HttpStatus.CREATED);
     }
 
+    //not required
     @RequestMapping(value = "/mark_runsheet_complete/{sheet}",method = RequestMethod.POST)
     public ResponseEntity<?> markRunSheetComplete(@PathVariable Integer sheet) {
         Task task = taskRepository.findOne(sheet);
@@ -80,6 +106,7 @@ public class TaskController {
         return new ResponseEntity<>(shipmentIdDelivered,HttpStatus.FOUND);
     }
 
+    //not required
     @RequestMapping(value = "/mark_pickup_sheet_complete/{sheet}",method = RequestMethod.POST)
     public ResponseEntity<?> markPickupSheetComplete(@PathVariable Integer sheet) {
         Task task = taskRepository.findOne(sheet);
@@ -87,11 +114,11 @@ public class TaskController {
         task.setDate(new Date());
         taskRepository.save(task);
         List<TaskIdShipmentMapping> taskIdShipmentMappings = taskIdShipmentMappingRepository.findByTaskId(sheet);
-        List<Integer> shipmentIdDelivered = new ArrayList<>();
+        List<Integer> shipmentIdPickup = new ArrayList<>();
         for(TaskIdShipmentMapping taskIdShipmentMapping : taskIdShipmentMappings) {
-            shipmentIdDelivered.add(taskIdShipmentMapping.getShipmentId());
+            shipmentIdPickup.add(taskIdShipmentMapping.getShipmentId());
         }
-        return new ResponseEntity<>(shipmentIdDelivered,HttpStatus.FOUND);
+        return new ResponseEntity<>(shipmentIdPickup,HttpStatus.FOUND);
     }
 
     @RequestMapping(value = "/create_pickup_request/{location_id}", method = RequestMethod.POST)
@@ -116,31 +143,11 @@ public class TaskController {
     @RequestMapping(value = "/task/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getTaskDetails(@PathVariable Integer id) {
 
-        Task task = taskRepository.findOne(id);
-        List<TaskIdShipmentMapping> taskIdShipmentMappings = taskIdShipmentMappingRepository.findByTaskId(id);
-        Integer shipmentId;
-        GetTripSheetRequest getTripSheetRequest = new GetTripSheetRequest();
-        List<GetTripSheetRequest.ShipmentDetails> shipmentDetailses = new ArrayList<>();
-        DeliverShipmentRequest deliverShipmentRequest = null;
-        GetTripSheetRequest.ShipmentDetails shipmentDetails;
-        PickupRequestResponse pickupRequest;
-        for ( TaskIdShipmentMapping taskIdShipmentMapping : taskIdShipmentMappings) {
-            shipmentId = taskIdShipmentMapping.getShipmentId();
-            if("create_runsheet".equalsIgnoreCase(task.getTaskDescription())) {
-                deliverShipmentRequest = deliverShipmentRequestRepository.findByShipmentId(shipmentId);
-                shipmentDetails = new GetTripSheetRequest.ShipmentDetails(shipmentId,deliverShipmentRequest.getAddress(),deliverShipmentRequest.getPincode());
-            }else {
-                pickupRequest = pickupRequestRepository.findByShipmentId(shipmentId);
-                shipmentDetails = new GetTripSheetRequest.ShipmentDetails(shipmentId,pickupRequest.getAddress(),pickupRequest.getPincode());
-            }
-            shipmentDetailses.add(shipmentDetails);
-        }
-        getTripSheetRequest.setShipmentDetails(shipmentDetailses);
-        getTripSheetRequest.setTripSheetId(id);
 
-
-        return new ResponseEntity<>(getTripSheetRequest,HttpStatus.ACCEPTED);
+        GetTripSheetRequest getTripSheetRequest = taskService.getTripSheetRequest(id);
+                return new ResponseEntity<>(getTripSheetRequest,HttpStatus.ACCEPTED);
     }
+
 
 
 }

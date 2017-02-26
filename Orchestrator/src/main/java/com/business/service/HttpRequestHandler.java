@@ -1,6 +1,7 @@
 package com.business.service;
 
 import com.business.dto.*;
+import com.business.models.CreateExpectationForShipment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Scope;
@@ -66,19 +67,25 @@ public class HttpRequestHandler {
 
     public PickupRequestResponse createHttpPickupRequest(CreatePickupRequest createPickupRequest, int locationId) {
         ResponseEntity<PickupRequestResponse> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/create_pickup_request/" + locationId,
                         createPickupRequest, PickupRequestResponse.class);
         return responseEntity.getBody();
     }
 
     public DeliverShipmentRequest createHttpDeliverRequest(DeliverShipmentRequest deliverShipmentRequest, int locationId) {
         ResponseEntity<DeliverShipmentRequest> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/create_pickup_request/" + locationId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/create_pickup_request/" + locationId,
                         deliverShipmentRequest, DeliverShipmentRequest.class);
         return responseEntity.getBody();
     }
 
 
+    public CreateExpectationForShipment createExpectationForShipment(CreateExpectationForShipment createExpectationForShipment) {
+        ResponseEntity<CreateExpectationForShipment> responseEntity =
+                restTemplate.postForEntity("http://localhost:29011/task/expect_shipment",
+                        createExpectationForShipment, CreateExpectationForShipment.class);
+        return responseEntity.getBody();
+    }
 
 
 
@@ -89,7 +96,7 @@ public class HttpRequestHandler {
         createSheetModel.setShipmentIds(shipmentIdList);
         createSheetModel.setTaskDescription("create_pickupsheet");
         ResponseEntity<Task> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task",
+                restTemplate.postForEntity("http://192.173.6.90:29011/task",
                         createSheetModel, Task.class);
         return responseEntity.getBody();
 
@@ -99,7 +106,7 @@ public class HttpRequestHandler {
     public List<String> mark_runsheet_complete(Integer runsheetId) {
         Class<List<String>> clazz = (Class) List.class;
         ResponseEntity<List<String>> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/mark_runsheet_complete/"+ runsheetId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/mark_runsheet_complete/"+ runsheetId,
                         null,clazz);
         return responseEntity.getBody();
     }
@@ -108,11 +115,17 @@ public class HttpRequestHandler {
     public List<String> mark_pickup_sheet_complete(Integer pickupSheetId) {
         Class<List<String>> clazz = (Class) List.class;
         ResponseEntity<List<String>> responseEntity =
-                restTemplate.postForEntity("http://localhost:29011/task/mark_pickup_sheet_complete/"+ pickupSheetId,
+                restTemplate.postForEntity("http://192.173.6.90:29011/task/mark_pickup_sheet_complete/"+ pickupSheetId,
                         null,clazz);
         return responseEntity.getBody();
     }
 
+    public QuotationResponse getQuotationResponse(ShipmentCreationRequestDto shipmentCreationRequestDto) {
+        ResponseEntity<QuotationResponse> responseEntity =
+                restTemplate.postForEntity("http://192.173.6.97:29004/shipment/book",
+                        shipmentCreationRequestDto, QuotationResponse.class);
+        return responseEntity.getBody();
+    }
 
     public int getNextHub(int hub, int shipmentId) {
         NextHubRequest nextHubRequest = new NextHubRequest(hub, shipmentId);
@@ -123,4 +136,19 @@ public class HttpRequestHandler {
     }
 
 
+    public ServiceArea getServiceArea(String pincode) {
+        ResponseEntity<ServiceArea> rateResponse =
+                restTemplate.exchange("http://192.173.6.34:29011/resource/getHubIdForPincode/"+ pincode,
+                        HttpMethod.GET, null, new ParameterizedTypeReference<ServiceArea>() {
+                        });
+        return rateResponse.getBody();
+    }
+
+    public Reservation bookReservation(Integer hub_id,  Double weight,  String date) {
+        ResponseEntity<Reservation> rateResponse =
+                restTemplate.exchange("http://192.173.6.34:29011/resource/reservation/"+ hub_id+"/" + weight + "/" + date,
+                        HttpMethod.POST, null, new ParameterizedTypeReference<Reservation>() {
+                        });
+        return rateResponse.getBody();
+    }
 }

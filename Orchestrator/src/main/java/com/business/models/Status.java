@@ -15,7 +15,7 @@ public class Status {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     @Column(nullable = false)
-    private String status;
+    private String statusName;
     @Column(insertable = false)
     @CreationTimestamp
     private Timestamp createdAt;
