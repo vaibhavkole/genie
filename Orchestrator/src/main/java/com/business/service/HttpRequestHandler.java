@@ -114,6 +114,13 @@ public class HttpRequestHandler {
     }
 
 
+    public int getNextHub(int hub, int shipmentId) {
+        NextHubRequest nextHubRequest = new NextHubRequest(hub, shipmentId);
+        ResponseEntity<Integer> responseEntity =
+                restTemplate.postForEntity("http://localhost:29004/shipment/next-hub",
+                       nextHubRequest, null);
+        return responseEntity.getBody();
+    }
 
 
 }
