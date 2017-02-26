@@ -74,6 +74,11 @@ public class ShipmentService {
     }
 
 
+    public Integer markReceived(int shipmentId, int hubId) {
+        return 0;
+    }
+
+
 
     public int getNextHub(int hubId, int shipmentId) {
         return httpRequestHandler.getNextHub(hubId, shipmentId);
