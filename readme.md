@@ -6,7 +6,7 @@ Internal service to onboard Merchants and Partners.
 Resource management service - writtneby Heena Hussain
 Internal service to manage resouces like Hub, Vehicle, Agents etc.
 
-Task service - writtenby Dheerak Mittal
+Task service - writtenby Dheeraj Mittal
 Internal service to create Tasks/Jobs for the resource to perform certain task.
 
 Transport service - writtenby Akashdeep Saluja
